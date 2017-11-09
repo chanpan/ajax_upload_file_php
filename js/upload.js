@@ -1,11 +1,16 @@
 $(function() {
-    $("#myImage").change(function(e) {
-        var files = e.target.files;
-        UploadImage(files); //เรียกใช้ function UploadImage
+    var file_str = "";
+    $("#imageUploadForm").on("submit",function(e){//เมื่อกด submit form
+         e.preventDefault();
+        UploadImage(file_str); //เรียกใช้ function UploadImage
     });
 
+    $("#myImage").change(function(e){ //เมื่อกด เลือดไฟล์ หรือ เกิด เหตุการณ์ change
+        file_str = e.target.files;
+    });
 
     function UploadImage(files) {
+        console.log(files);
         var data = new FormData(); // เตรียมข้อมูล form สำหรับส่ง
         $.each(files, function(k, v) { //ลูป กรณีมีหลายไฟล์
             data.append(k, v);

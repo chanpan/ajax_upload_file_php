@@ -1,5 +1,6 @@
 <?php 
 header('Access-Control-Allow-Origin: *'); 
+
 $out = []; 
 foreach($_FILES as $file){
 	$imageFileType = pathinfo($_FILES[0]['name'],PATHINFO_EXTENSION); 
