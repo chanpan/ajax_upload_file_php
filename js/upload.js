@@ -1,24 +1,34 @@
 $(function() {
     var file_str = "";
+    var num_str = 1;
     $("#imageUploadForm").on("submit",function(e){//เมื่อกด submit form
         e.preventDefault();//ไม่ให้ โหลดหน้าใหม่
-        UploadImage(file_str); //เรียกใช้ function UploadImage
+        UploadImageToServer(file_str); //เรียกใช้ function UploadImage
     });
 
     $("#myImage").change(function(){ //เมื่อกด เลือดไฟล์ หรือ เกิด เหตุการณ์ change
         file_str = this.files;
         for(let i=0; i<this.files.length; i++){
             var reader = new FileReader();
-            reader.onload = imageIsLoaded;
+            reader.onload = PreviewImage;
             reader.readAsDataURL(this.files[i]);
+
         } 
     });
-    function imageIsLoaded(e) {
-        //console.log(e.target.result);
-        $('#Imagepreview').append("<img src='"+e.target.result+"'>");
+
+    function PreviewImage(e) {
+        var img = $('<img id="dynamic" class="img_'+num_str+'">'); //Equivalent: $(document.createElement('img'))
+        img.attr('src', e.target.result);
+        img.appendTo('#Imagepreview');
+
+        num_str++;
+    }
+    
+    function DeleteImage() {
+        
     }
 
-    function UploadImage(files) {
+    function UploadImageToServer(files) {
         console.log(files);
         var data = new FormData(); // เตรียมข้อมูล form สำหรับส่ง
         $.each(files, function(k, v) { //ลูป กรณีมีหลายไฟล์
