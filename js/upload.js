@@ -1,13 +1,22 @@
 $(function() {
     var file_str = "";
     $("#imageUploadForm").on("submit",function(e){//เมื่อกด submit form
-         e.preventDefault();
+        e.preventDefault();//ไม่ให้ โหลดหน้าใหม่
         UploadImage(file_str); //เรียกใช้ function UploadImage
     });
 
-    $("#myImage").change(function(e){ //เมื่อกด เลือดไฟล์ หรือ เกิด เหตุการณ์ change
-        file_str = e.target.files;
+    $("#myImage").change(function(){ //เมื่อกด เลือดไฟล์ หรือ เกิด เหตุการณ์ change
+        file_str = this.files;
+        for(let i=0; i<this.files.length; i++){
+            var reader = new FileReader();
+            reader.onload = imageIsLoaded;
+            reader.readAsDataURL(this.files[i]);
+        } 
     });
+    function imageIsLoaded(e) {
+        //console.log(e.target.result);
+        $('#Imagepreview').append("<img src='"+e.target.result+"'>");
+    }
 
     function UploadImage(files) {
         console.log(files);
