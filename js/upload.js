@@ -1,32 +1,29 @@
 $(function() {
-    var img = $("#imgDemo").attr('src');
-    var st = img.replace(/^data:image\/(png|jpg);base64,/, "");
-    console.log(st);
-
     $("#myImage").change(function(e) {
-        //console.log(e.target.files);
         var files = e.target.files;
-        //console.log(files);
-        UploadImage(files);
+        UploadImage(files); //เรียกใช้ function UploadImage
     });
 
 
     function UploadImage(files) {
-        var data = new FormData();
-        $.each(files, function(k, v) {
+        var data = new FormData(); // เตรียมข้อมูล form สำหรับส่ง
+        $.each(files, function(k, v) { //ลูป กรณีมีหลายไฟล์
             data.append(k, v);
         });
-        $.ajax({
+        $.ajax({ //ส่งข้อมูลไปให้ php ผ่าน webservice
             url: "http://localhost/ajax_upload/server/upload.php",
-            type: "POST",
+            type: "POST", //ส่งแบบ post ไม่แสดง parameter บน url
             cache: false,
             contentType: false,
             processData: false,
-            data: data,
-            success: function(res) {
+            data: data, //ข้อมูล data ที่เตรียมไว้
+            success: function(res) { //ถ้าส่งสำเร็จ
                 console.log(res);
+            },
+            error: function(err) { //ถ้า error
+                console.log(err);
             }
         });
-        return false;
+        return false; //ไม่ให้ โหลดหน้าใหม่
     }
 });
