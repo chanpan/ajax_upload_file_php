@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Simple convert image to base64 jQuery + Canvas</title>
+    <style type="text/css">
+        body {
+            padding: 20px;
+        }
+    </style>
+
+    <script src="./js/jquery-3.2.1.min.js"></script>
+</head>
+
+<body>
+    <h2>Input</h2>
+    <form class="input-group" id="img2b64">
+        <input type="url" name="url" class="form-control" placeholder="Insert an IMAGE-URL" value="http://upload.wikimedia.org/wikipedia/commons/4/4a/Logo_2013_Google.png" required>
+        <span class="input-group-btn">
+        <input 
+            type="submit" 
+            class="btn btn-default">
+    </span>
+    </form>
+
+    <hr>
+
+    <h2>Output</h2>
+    <div class="output">
+        <textarea class="form-control"></textarea><br>
+        <a></a><br><br>
+        <img><br>
+    </div>
+    <script>
+        function convertImgToBase64(url, callback, outputFormat) {
+            var img = new Image();
+            img.crossOrigin = 'Anonymous';
+            img.onload = function() {
+                var canvas = document.createElement('CANVAS');
+                var ctx = canvas.getContext('2d');
+                canvas.height = this.height;
+                canvas.width = this.width;
+                ctx.drawImage(this, 0, 0);
+                var dataURL = canvas.toDataURL(outputFormat || 'image/png');
+                callback(dataURL);
+                canvas = null;
+            };
+            img.src = url;
+        }
+
+
+        $('#img2b64').submit(function(event) {
+            var imageUrl = $(this).find('input[name=url]').val();
+
+            convertImgToBase64(imageUrl, function(base64Img) {
+                console.log(base64Img);
+                $('.output')
+                    .find('textarea')
+                    .val(base64Img)
+                    .end()
+                    .find('a')
+                    .attr('href', base64Img)
+                    .text(base64Img)
+                    .end()
+                    .find('img')
+                    .attr('src', base64Img);
+            });
+
+            event.preventDefault();
+        });
+    </script>
+</body>
+
+</html>
