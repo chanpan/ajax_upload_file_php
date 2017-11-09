@@ -11,7 +11,7 @@ $(function() {
             data.append(k, v);
         });
         $.ajax({ //ส่งข้อมูลไปให้ php ผ่าน webservice
-            url: "http://localhost/ajax_upload/server/upload.php",
+            url: "http://localhost/ajax/server/upload.php",
             type: "POST", //ส่งแบบ post ไม่แสดง parameter บน url
             cache: false,
             contentType: false,
